@@ -1,0 +1,46 @@
+# Env
+.env
+/#vhost.conf
+
+# generated code from mii
+# /backend/controllers/ApplicantController.php
+# /backend/models/Applicant.php
+# /backend/models/search/ApplicantSearch.php
+# /backend/views/applicant/*
+
+
+# composer
+/vendor
+# /vendor/yiisoft/*
+/vendoro
+composer.phar
+# !/vendor/yiisoft/
+# !/vendor/yiisoft/extensions.php
+## remove in production!
+composer.lock
+
+# IDE
+.idea
+nbproject
+.buildpath
+.project
+.settings
+.vscode
+
+# windows thumbnail cache
+Thumbs.db
+
+# Mac DS_Store Files
+.DS_Store
+
+# phpunit
+phpunit.phar
+/phpunit.xml
+
+# Vagrant
+/.vagrant
+/vagrant.yaml
+
+# image folder
+backend/web/assets
+frontend/web/assets

@@ -1,0 +1,70 @@
+<?php
+
+namespace backend\models;
+
+use Yii;
+use yii\base\Model;
+use yii\data\ActiveDataProvider;
+use backend\models\CaseStepsNotes;
+
+/**
+ * CaseStepsNotesSearch represents the model behind the search form about `backend\models\CaseStepsNotes`.
+ */
+class CaseStepsNotesSearch extends CaseStepsNotes
+{
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['id', 'case_steps_id', 'user_id'], 'integer'],
+            [['description', 'created_at'], 'safe'],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function scenarios()
+    {
+        // bypass scenarios() implementation in the parent class
+        return Model::scenarios();
+    }
+
+    /**
+     * Creates data provider instance with search query applied
+     *
+     * @param array $params
+     *
+     * @return ActiveDataProvider
+     */
+    public function search($params)
+    {
+        $query = CaseStepsNotes::find();
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+//            'order'
+        ]);
+
+        $this->load($params);
+
+        if (!$this->validate()) {
+            // uncomment the following line if you do not want to return any records when validation fails
+            // $query->where('0=1');
+            return $dataProvider;
+        }
+
+        $query->andFilterWhere([
+            'id' => $this->id,
+            'case_steps_id' => $this->case_steps_id,
+            'user_id' => $this->user_id,
+            'created_at' => $this->created_at,
+        ]);
+
+        $query->andFilterWhere(['like', 'description', $this->description]);
+
+        return $dataProvider;
+    }
+}

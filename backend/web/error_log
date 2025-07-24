@@ -1,0 +1,2 @@
+[28-Oct-2016 08:21:17 Etc/GMT] PHP Parse error:  syntax error, unexpected '=>' (T_DOUBLE_ARROW), expecting ',' or ';' in /home/hrmerit/public_html/handyreceipts2/backend/views/slip/view.php on line 71
+[28-Oct-2016 10:54:53 Etc/GMT] PHP Parse error:  syntax error, unexpected ',' in /home/hrmerit/public_html/handyreceipts2/backend/views/slip/index.php on line 49

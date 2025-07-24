@@ -1,0 +1,8 @@
+._at_img{
+    max-width: 30px;
+    max-height: 30px;
+}
+._grid_view{
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    width: 60px;
+}

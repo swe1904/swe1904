@@ -1,0 +1,128 @@
+<div class="col-md-12">
+    <h3 style="text-align: center"><strong>Question Type: </strong><?= $pollingQuizQuestion->pollingQuizQuestionType->name ?> </h3>
+    <div class="col-md-6">
+        <form class="form-horizontal">
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="email">Question title:</label>
+            <div class="col-sm-10">
+                <p type="password" class="form-control" id="pwd" style="border: 0"><?= $pollingQuizQuestion->question ?></p>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="col-md-4" style="border: 1px solid #dddddd;
+    background-color: rgba(221, 221, 221, 0.23);">
+        <h4>Options given: </h4>
+        <!--<ul class="fa-ul">
+       <?php
+        /*        foreach($pollingQuizQuestion->pollingQuizQuestionOptions as $option){
+                    echo '<li><i class="fa-li fa fa-square"> </i>'.$option->value.'</li>';
+                }
+               $answerCorrect=returnAnswerMC($pollingQuizQuestion,$PollingQuizResultModel->correctAnswer);
+               echo $answerCorrect;
+               */?>
+        </ul>-->
+        <ul class="list-group">
+            <?php
+            $finalAnswerMRArray=returnMRAnswerCombination($pollingQuizQuestion,$PollingQuizResultModel);
+
+            foreach($finalAnswerMRArray as $answer){
+                if($answer['correct']==1){
+                    echo '<li class="list-group-item list-group-item-success">'.$answer['answer'].'</li>';
+                }else{
+                    echo '<li class="list-group-item ">'.$answer['answer'].'</li>';
+                }
+            }
+            ?>
+        </ul>
+    </div>
+    <div class="col-md-8">
+        <div class='middle_data_multiple' id='<?php echo $id ?>' style="height: 500px;">
+        </div>
+    </div>
+</div>
+<script>
+    function graphRating2(answersWithPercArray){
+        var id='<?php echo $id ?>';
+        console.log(answersWithPercArray);
+        var svg = dimple.newSvg("#"+id, '100%', '100%');
+        var axisData={'User percentage':null,"Ratings":null};
+        var finalData=[];
+        for(var i in answersWithPercArray){
+            //alert(answersWithPercArray[i]+"      "+i);
+            finalData.push({'User percentage':answersWithPercArray[i]['correct_ans_perc'],
+                "Team":answersWithPercArray[i]['team_id'],
+                "No. of users appeared in this Team":answersWithPercArray[i]['user_appeared'],
+                "No. of users given correct answer":answersWithPercArray[i]['correct_answer']});
+        }
+        //console.log(finalData);
+        var myChart = new dimple.chart(svg, finalData);
+        //myChart.setBounds(60, 30, 510, 305)
+        var x = myChart.addCategoryAxis("x", "Team");
+        /*x.tickFormat = ',.1f';addCategoryAxis
+         x.addOrderRule("Order");*/
+        x.addOrderRule("Ratings");
+        var y = myChart.addMeasureAxis("y", "User percentage");
+        y.overrideMax = 100;
+        myChart.setMargins("10%", "10%", "10%", "10%");
+        myChart.addSeries(['Team','No. of users appeared in this Team','No. of users given correct answer'], dimple.plot.bar);
+        myChart.draw();
+        /*window.onresize = function () {
+            // As of 1.1.0 the second parameter here allows you to draw
+            // without reprocessing data.  This saves a lot on performance
+            // when you know the data won't have changed.
+            console.log("chart draw");
+            myChart.draw(0, true);
+        };*/
+        console.log(answersWithPercArray[3]);
+    }
+</script>
+<?php
+$finalAnswersByUsersArray=[];
+$questionOptions=[];
+$fixedChoices=[];
+$finalAnswerArray=[];
+//echo json_encode(array_count_values($PollingQuizResultModel->answerByUsers));
+//print_r($PollingQuizResultModel->answerByUsersMR);
+//print_r($PollingQuizResultModel->correctAnswerMR);
+$teamArray=[];
+$finalTeamArray=[];
+//echo json_encode($PollingQuizResultModel->teamAnswerArrayMR);
+foreach($PollingQuizResultModel->teamAnswerArrayMR as $answerArray){
+    //echo $answerArray['id'];
+    //echo json_encode($answerArray['polling_quiz_team_id']);
+    $teamArray[$answerArray['polling_quiz_team_id']][]=$answerArray['answer'];
+    //echo $answerArray->polling_quiz_team_id."</br>";
+}
+//echo json_encode($teamArray);
+foreach($teamArray as $teamId=>$answers){
+    $totalUsers=count($answers);
+    $correctAnswer=0;
+    foreach($answers as $arrayVal){
+
+        if(array_diff_custom($arrayVal,$PollingQuizResultModel->correctAnswerMR)){
+            $correctAnswer++;
+        }
+
+
+    }
+    $precentage=0;
+    if($correctAnswer!=0){
+        $precentage=($correctAnswer/$totalUsers)*100;
+    }
+    $finalTeamArray[]=['team_id'=>returnTeamName($pollingQuizTeams,$teamId),'correct_ans_perc'=>$precentage,'user_appeared'=>$totalUsers,'correct_answer'=>$correctAnswer];
+}
+//echo json_encode($finalTeamArray);
+
+?>
+<script>
+    var answersWithPercArray = <?php echo json_encode($finalTeamArray) ?>;
+    graphRating2(answersWithPercArray);
+</script>
+<style>
+    .dimple-tooltip{
+        background: white;
+    }
+</style>

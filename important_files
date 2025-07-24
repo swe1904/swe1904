@@ -1,0 +1,11 @@
+https://www.jqueryscript.net/form/jQuery-Plugin-For-Online-Drag-Drop-Form-Builder.html
+http://formbuilder.readthedocs.io/en/latest/formBuilder/options/templates/
+
+[
+                'label' => 'Balance',
+                'format' => 'html',
+                'attribute'=>'file_1530083685023',
+                'content' => function ($model) {
+                    return $model->getFileData('file_1530083685023');
+                }
+            ],

@@ -1,0 +1,12 @@
+.access-wrap {
+    display: none !important;
+}
+.other-wrap, .description-wrap, .className-wrap, .name-wrap, .value-wrap, .maxlength-wrap, .rows-wrap{
+    display: none !important;
+}
+.textarea-field .subtype-wrap{
+    display: none;
+}
+.select-field .option-value{
+    display: none !important;
+}

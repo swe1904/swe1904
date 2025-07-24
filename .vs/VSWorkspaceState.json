@@ -1,0 +1,18 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\backend",
+    "\\backend\\views",
+    "\\backend\\views\\client",
+    "\\backend\\views\\file-manager",
+    "\\backend\\views\\file-storage",
+    "\\backend\\web",
+    "\\backend\\web\\backend",
+    "\\backend\\web\\backend\\views",
+    "\\backend\\web\\backend\\views\\case_history",
+    "\\common",
+    "\\common\\models"
+  ],
+  "SelectedNode": "\\backend\\views\\client\\_form.php",
+  "PreviewInSolutionExplorer": false
+}
